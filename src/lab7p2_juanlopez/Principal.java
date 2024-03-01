@@ -4,11 +4,16 @@
  */
 package lab7p2_juanlopez;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -67,6 +72,11 @@ public class Principal extends javax.swing.JFrame {
         pp_trees.add(jmi_load);
 
         jmi_refrescar.setText("Refresh");
+        jmi_refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_refrescarActionPerformed(evt);
+            }
+        });
         pp_trees.add(jmi_refrescar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -128,12 +138,27 @@ public class Principal extends javax.swing.JFrame {
         jm_window.setText("Window");
 
         jmi_clearline.setText("Clear Command Line");
+        jmi_clearline.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_clearlineActionPerformed(evt);
+            }
+        });
         jm_window.add(jmi_clearline);
 
         jmi_clear.setText("Clear Table");
+        jmi_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_clearActionPerformed(evt);
+            }
+        });
         jm_window.add(jmi_clear);
 
         jmi_refresh.setText("Refresh Trees");
+        jmi_refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_refreshActionPerformed(evt);
+            }
+        });
         jm_window.add(jmi_refresh);
 
         jmb_menus.add(jm_window);
@@ -144,6 +169,11 @@ public class Principal extends javax.swing.JFrame {
         jm_help.add(jmi_structure);
 
         jmi_comandos.setText("Comandos");
+        jmi_comandos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_comandosActionPerformed(evt);
+            }
+        });
         jm_help.add(jmi_comandos);
 
         jmb_menus.add(jm_help);
@@ -173,16 +203,17 @@ public class Principal extends javax.swing.JFrame {
 
     private void jmi_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_loadActionPerformed
         // TODO add your handling code here:
-        JFileChooser jfc=new JFileChooser("./");
-        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int x=jfc.showOpenDialog(this);
-        if (x==JFileChooser.APPROVE_OPTION){
-            DefaultMutableTreeNode nodo=new DefaultMutableTreeNode(jfc.getSelectedFile().getName());
-            DefaultTreeModel tm=(DefaultTreeModel) jTree1.getModel();
-            DefaultMutableTreeNode raiz=(DefaultMutableTreeNode)tm.getRoot();
-            raiz.add(nodo);
-            tm.reload();
-        }
+//        JFileChooser jfc=new JFileChooser("./");
+//        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+//        int x=jfc.showOpenDialog(this);
+//        if (x==JFileChooser.APPROVE_OPTION){
+//            DefaultMutableTreeNode nodo=new DefaultMutableTreeNode(jfc.getSelectedFile().getName());
+//            DefaultTreeModel tm=(DefaultTreeModel) jTree1.getModel();
+//            DefaultMutableTreeNode raiz=(DefaultMutableTreeNode)tm.getRoot();
+//            raiz.add(nodo);
+//            tm.reload();
+//        }
+
     }//GEN-LAST:event_jmi_loadActionPerformed
 
     private void bt_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_enterMouseClicked
@@ -191,6 +222,31 @@ public class Principal extends javax.swing.JFrame {
         comando(comando);
         
     }//GEN-LAST:event_bt_enterMouseClicked
+
+    private void jmi_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_clearActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_jmi_clearActionPerformed
+
+    private void jmi_clearlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_clearlineActionPerformed
+        // TODO add your handling code here:
+        tf_comandos.setText("");
+    }//GEN-LAST:event_jmi_clearlineActionPerformed
+
+    private void jmi_comandosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_comandosActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "./load: Sirve para cargar un archivo al arbol\n./create: Sirve para agregar un nuevo archivo a la ROM\n./clear: Vacía la tabla\n./refresh: Refresca el árbol");
+    }//GEN-LAST:event_jmi_comandosActionPerformed
+
+    private void jmi_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_refreshActionPerformed
+        // TODO add your handling code here:
+        refresh();
+    }//GEN-LAST:event_jmi_refreshActionPerformed
+
+    private void jmi_refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_refrescarActionPerformed
+        // TODO add your handling code here:
+        refresh();
+    }//GEN-LAST:event_jmi_refrescarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,7 +296,20 @@ public class Principal extends javax.swing.JFrame {
     }
     
     public void load() throws IOException{
-       AdminProductos ap=new AdminProductos("./datos.txt");
+       File nada=null;
+       FileReader fr=null;
+       BufferedReader br=null;
+       Scanner leer=null;
+       nada=new File("./datos.txt");
+       fr=new FileReader(nada);
+       br=new BufferedReader(fr);
+       String per="";
+        while ((per=br.readLine())!=null) {
+            Object next = leer.next();
+            System.out.println(next);
+        }
+        
+        AdminProductos ap=new AdminProductos("./datos.txt");
        ap.cargarArchivo();
        DefaultTableModel modelo=(DefaultTableModel)tb_productos.getModel();
         System.out.println("llegue");
@@ -257,15 +326,31 @@ public class Principal extends javax.swing.JFrame {
     }
     
     public void create(){
-        
     }
     
     public void clear(){
-        
+        DefaultTableModel tt=(DefaultTableModel)tb_productos.getModel();
+        tt=new DefaultTableModel();
+//        for (int i = 0; i < tt.getRowCount(); i++) {
+//            tt.removeRow(i);
+//        }
+        tb_productos.setModel(tt);
     }
     
     public void refresh(){
-        
+        File a=new File("./");
+        File[] control=a.listFiles();
+        for (int i = 0; i < control.length; i++) {
+            if (control[i].isFile()){
+                if (control[i].getName().endsWith(".txt")){
+            DefaultMutableTreeNode nodo=new DefaultMutableTreeNode(control[i].getName());
+            DefaultTreeModel tm=(DefaultTreeModel) jTree1.getModel();
+            DefaultMutableTreeNode raiz=(DefaultMutableTreeNode)tm.getRoot();
+            raiz.add(nodo);
+            tm.reload();
+                }
+            }
+        }
     }
     
 

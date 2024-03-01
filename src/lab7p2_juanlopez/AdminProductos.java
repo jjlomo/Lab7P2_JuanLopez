@@ -1,8 +1,10 @@
 
 package lab7p2_juanlopez;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,18 +42,33 @@ public class AdminProductos {
         productos = new ArrayList();
         if (archivo.exists()) {
             try {
+//                archivo=new File("./doc");
                 leer = new Scanner(archivo);
                 leer.useDelimiter(",");
                 System.out.println("3");
+                System.out.println(leer);
                 while (leer.hasNext()) {
                     productos.add(new Productos(leer.nextInt(), leer.nextLine(), leer.nextLine(), leer.nextDouble(), leer.nextInt(), leer.nextInt()));
                     System.out.println("po");
                 }
+                FileReader fr=null;
+                BufferedReader br=null;
+                fr=new FileReader(archivo);
+                br=new BufferedReader(fr);
+                String linea=br.readLine();
+                System.out.println(linea);
+                while (leer.hasNext()) {
+                    String next = leer.next();
+                    System.out.println(next);
+                }
+                br.close();
+                fr.close();
                 System.out.println("12");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
             leer.close();
+            
         }
     }
     
