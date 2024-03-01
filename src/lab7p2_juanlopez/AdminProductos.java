@@ -45,15 +45,15 @@ public class AdminProductos {
                 leer = new Scanner(archivo);
                 leer.useDelimiter(",");
                 System.out.println("3");
-                System.out.println(leer);
+//                System.out.println(leer);
 //                while (leer.hasNext()) {
 //                    productos.add(new Productos(leer.nextInt(), leer.nextLine(), leer.nextLine(), leer.nextDouble(), leer.nextInt(), leer.nextInt()));
 //                    System.out.println("po");
 //                }
                 while (leer.hasNext()) {
-                    
-                    String next = leer.next();
-                    System.out.println(next);
+                    productos.add(new Productos(leer.nextInt(), leer.nextLine(), leer.nextLine(), leer.nextDouble(), leer.nextInt(), leer.nextInt()));
+//                    String next = leer.next();
+//                    System.out.println(next);
                 }
                 System.out.println("12");
             } catch (Exception ex) {
