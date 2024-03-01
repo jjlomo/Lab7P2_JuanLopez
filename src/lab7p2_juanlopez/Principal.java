@@ -48,7 +48,7 @@ public class Principal extends javax.swing.JFrame {
         tf_comandos = new javax.swing.JTextField();
         bt_enter = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jt_arbol = new javax.swing.JTree();
         jScrollPane2 = new javax.swing.JScrollPane();
         tb_productos = new javax.swing.JTable();
         jmb_menus = new javax.swing.JMenuBar();
@@ -93,15 +93,15 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel1.add(bt_enter, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 160, 40));
 
-        jTree1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        jt_arbol.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Archivos CSV");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jTree1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jt_arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jt_arbol.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTree1MouseClicked(evt);
+                jt_arbolMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTree1);
+        jScrollPane1.setViewportView(jt_arbol);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 180, 300));
 
@@ -194,12 +194,12 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
+    private void jt_arbolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_arbolMouseClicked
         // TODO add your handling code here:
         if(evt.isMetaDown()){
             pp_trees.show(this, evt.getX(), evt.getY());
         }
-    }//GEN-LAST:event_jTree1MouseClicked
+    }//GEN-LAST:event_jt_arbolMouseClicked
 
     private void jmi_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_loadActionPerformed
         // TODO add your handling code here:
@@ -213,7 +213,17 @@ public class Principal extends javax.swing.JFrame {
 //            raiz.add(nodo);
 //            tm.reload();
 //        }
-
+        if(jt_arbol.getSelectionPath().getLastPathComponent()!=null){
+            try {
+                DefaultMutableTreeNode nod=(DefaultMutableTreeNode)jt_arbol.getSelectionPath().getLastPathComponent();
+                String nam=nod.toString();
+                System.out.println(nam);
+                com=nam;
+                load();
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jmi_loadActionPerformed
 
     private void bt_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_enterMouseClicked
@@ -300,16 +310,25 @@ public class Principal extends javax.swing.JFrame {
        FileReader fr=null;
        BufferedReader br=null;
        Scanner leer=null;
-       nada=new File("./datos.txt");
+       nada=new File("./"+com);
        fr=new FileReader(nada);
        br=new BufferedReader(fr);
        String per="";
         while ((per=br.readLine())!=null) {
-            Object next = leer.next();
+            String next = br.readLine();
             System.out.println(next);
         }
+        System.out.println("Aqui nada");
         
-        AdminProductos ap=new AdminProductos("./datos.txt");
+        leer=new Scanner(nada);
+        leer.useDelimiter(",");
+        while (leer.hasNext()) {
+            String next = leer.next();
+            System.out.println(next);
+        }
+        System.out.println("TAmpoco aquí");
+        
+        AdminProductos ap=new AdminProductos("./"+com);
        ap.cargarArchivo();
        DefaultTableModel modelo=(DefaultTableModel)tb_productos.getModel();
         System.out.println("llegue");
@@ -326,14 +345,15 @@ public class Principal extends javax.swing.JFrame {
     }
     
     public void create(){
+        
     }
     
     public void clear(){
         DefaultTableModel tt=(DefaultTableModel)tb_productos.getModel();
-        tt=new DefaultTableModel();
-//        for (int i = 0; i < tt.getRowCount(); i++) {
-//            tt.removeRow(i);
-//        }
+        for (int i = 0; i < tt.getRowCount(); i++) {
+            tt.removeRow(i);
+        }
+
         tb_productos.setModel(tt);
     }
     
@@ -344,7 +364,7 @@ public class Principal extends javax.swing.JFrame {
             if (control[i].isFile()){
                 if (control[i].getName().endsWith(".txt")){
             DefaultMutableTreeNode nodo=new DefaultMutableTreeNode(control[i].getName());
-            DefaultTreeModel tm=(DefaultTreeModel) jTree1.getModel();
+            DefaultTreeModel tm=(DefaultTreeModel) jt_arbol.getModel();
             DefaultMutableTreeNode raiz=(DefaultMutableTreeNode)tm.getRoot();
             raiz.add(nodo);
             tm.reload();
@@ -360,7 +380,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTree jTree1;
     private javax.swing.JMenu jm_file;
     private javax.swing.JMenu jm_help;
     private javax.swing.JMenu jm_window;
@@ -374,6 +393,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_refrescar;
     private javax.swing.JMenuItem jmi_refresh;
     private javax.swing.JMenuItem jmi_structure;
+    private javax.swing.JTree jt_arbol;
     private javax.swing.JPopupMenu pp_table;
     private javax.swing.JPopupMenu pp_trees;
     private javax.swing.JTable tb_productos;
