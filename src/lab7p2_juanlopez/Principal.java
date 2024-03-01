@@ -4,6 +4,15 @@
  */
 package lab7p2_juanlopez;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
 /**
  *
  * @author jjlm1
@@ -31,12 +40,12 @@ public class Principal extends javax.swing.JFrame {
         jmi_refrescar = new javax.swing.JMenuItem();
         pp_table = new javax.swing.JPopupMenu();
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        tf_comandos = new javax.swing.JTextField();
+        bt_enter = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tb_productos = new javax.swing.JTable();
         jmb_menus = new javax.swing.JMenuBar();
         jm_file = new javax.swing.JMenu();
         jmi_newfile = new javax.swing.JMenuItem();
@@ -49,40 +58,62 @@ public class Principal extends javax.swing.JFrame {
         jmi_structure = new javax.swing.JMenuItem();
         jmi_comandos = new javax.swing.JMenuItem();
 
-        jmi_load.setText("jMenuItem1");
+        jmi_load.setText("Load File");
+        jmi_load.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_loadActionPerformed(evt);
+            }
+        });
         pp_trees.add(jmi_load);
 
-        jmi_refrescar.setText("jMenuItem2");
+        jmi_refrescar.setText("Refresh");
         pp_trees.add(jmi_refrescar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 460, 40));
+        jPanel1.add(tf_comandos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 460, 40));
 
-        jButton1.setText("ENTER");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 160, 40));
+        bt_enter.setText("ENTER");
+        bt_enter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_enterMouseClicked(evt);
+            }
+        });
+        jPanel1.add(bt_enter, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 160, 40));
 
         jTree1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Archivos CSV");
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTree1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTree1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTree1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 120, 300));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 180, 300));
 
-        jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tb_productos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        tb_productos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
                 "ID", "Nombre", "Categoría", "Precio", "Aisle", "Bin"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tb_productos);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 500, 300));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 60, 500, 300));
 
         jm_file.setText("File");
 
@@ -123,7 +154,7 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,6 +163,34 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
+        // TODO add your handling code here:
+        if(evt.isMetaDown()){
+            pp_trees.show(this, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jTree1MouseClicked
+
+    private void jmi_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_loadActionPerformed
+        // TODO add your handling code here:
+        JFileChooser jfc=new JFileChooser("./");
+        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int x=jfc.showOpenDialog(this);
+        if (x==JFileChooser.APPROVE_OPTION){
+            DefaultMutableTreeNode nodo=new DefaultMutableTreeNode(jfc.getSelectedFile().getName());
+            DefaultTreeModel tm=(DefaultTreeModel) jTree1.getModel();
+            DefaultMutableTreeNode raiz=(DefaultMutableTreeNode)tm.getRoot();
+            raiz.add(nodo);
+            tm.reload();
+        }
+    }//GEN-LAST:event_jmi_loadActionPerformed
+
+    private void bt_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_enterMouseClicked
+        // TODO add your handling code here:
+        String comando=tf_comandos.getText();
+        comando(comando);
+        
+    }//GEN-LAST:event_bt_enterMouseClicked
 
     /**
      * @param args the command line arguments
@@ -167,14 +226,55 @@ public class Principal extends javax.swing.JFrame {
             }
         });
     }
+    public void comando(String comando){
+        String[] eva=comando.split(" ");
+        com=eva[1];
+        if ("./load".equals(eva[0])) {
+            try {
+                load();
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
+    
+    public void load() throws IOException{
+       AdminProductos ap=new AdminProductos("./datos.txt");
+       ap.cargarArchivo();
+       DefaultTableModel modelo=(DefaultTableModel)tb_productos.getModel();
+        System.out.println("llegue");
+        System.out.println(ap.getProductos());
+        for (Productos p : ap.getProductos()) {
+            Object [] obj={p.getId(),p.getNombre(),p.getCategoria(),p.getPrecio(),p.getAisle(),p.getBin()};
+            modelo.addRow(obj);
+            System.out.println("1");
+        }
+        tb_productos.setModel(modelo);
+        System.out.println("aqui");
+        ap.escribirArchivo();
+        
+    }
+    
+    public void create(){
+        
+    }
+    
+    public void clear(){
+        
+    }
+    
+    public void refresh(){
+        
+    }
+    
 
+    String com="";
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton bt_enter;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTree1;
     private javax.swing.JMenu jm_file;
     private javax.swing.JMenu jm_help;
@@ -191,5 +291,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_structure;
     private javax.swing.JPopupMenu pp_table;
     private javax.swing.JPopupMenu pp_trees;
+    private javax.swing.JTable tb_productos;
+    private javax.swing.JTextField tf_comandos;
     // End of variables declaration//GEN-END:variables
 }

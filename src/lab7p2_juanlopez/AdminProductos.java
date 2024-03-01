@@ -42,10 +42,14 @@ public class AdminProductos {
             try {
                 leer = new Scanner(archivo);
                 leer.useDelimiter(",");
+                System.out.println("3");
                 while (leer.hasNext()) {
                     productos.add(new Productos(leer.nextInt(), leer.nextLine(), leer.nextLine(), leer.nextDouble(), leer.nextInt(), leer.nextInt()));
+                    System.out.println("po");
                 }
+                System.out.println("12");
             } catch (Exception ex) {
+                ex.printStackTrace();
             }
             leer.close();
         }
