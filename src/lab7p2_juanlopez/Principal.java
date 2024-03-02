@@ -268,6 +268,8 @@ public class Principal extends javax.swing.JFrame {
     private void jmi_newfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_newfileActionPerformed
         try {
             // TODO add your handling code here:
+            String nombre=JOptionPane.showInputDialog("Nombre del doc");
+            com=nombre;
             create();
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
@@ -388,14 +390,18 @@ public class Principal extends javax.swing.JFrame {
         fw=new FileWriter(nuevo,true);
         bw=new BufferedWriter(fw);
         DefaultTableModel bb=(DefaultTableModel)tb_productos.getModel();
+        System.out.println(bb.getRowCount());
+        System.out.println(bb.getColumnCount());
         try{
         for (int i = 0; i < bb.getRowCount(); i++) {
-            Object [] objetos=new Object[7];
-            for (int j = 0; j < 7; j++) {
+            Object [] objetos=new Object[6];
+            for (int j = 0; j < bb.getColumnCount(); j++) {
                 objetos[j]=bb.getValueAt(i, j);
             }
             for (Object o : objetos) {
+               if(o!=null){
                 bw.write((String)o+",");
+               }
             }
             
         }
