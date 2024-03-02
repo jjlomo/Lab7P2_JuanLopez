@@ -372,7 +372,8 @@ public class Principal extends javax.swing.JFrame {
     }
     
     public void load() throws IOException{
-       File nada=null;
+       try{
+        File nada=null;
        FileReader fr=null;
        BufferedReader br=null;
        Scanner leer=null;
@@ -416,6 +417,9 @@ public class Principal extends javax.swing.JFrame {
         tb_productos.setModel(modelo);
         System.out.println("aqui");
         ap.escribirArchivo();
+       }catch (Exception ex){
+           ex.printStackTrace();
+       }
         
     }
     
