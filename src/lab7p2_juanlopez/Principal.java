@@ -46,6 +46,7 @@ public class Principal extends javax.swing.JFrame {
         jmi_load = new javax.swing.JMenuItem();
         jmi_refrescar = new javax.swing.JMenuItem();
         pp_table = new javax.swing.JPopupMenu();
+        jmi_cleartb = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         tf_comandos = new javax.swing.JTextField();
         bt_enter = new javax.swing.JButton();
@@ -80,6 +81,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         pp_trees.add(jmi_refrescar);
+
+        jmi_cleartb.setText("Limpiar tabla");
+        jmi_cleartb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_cleartbActionPerformed(evt);
+            }
+        });
+        pp_table.add(jmi_cleartb);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,6 +132,11 @@ public class Principal extends javax.swing.JFrame {
                 "ID", "Nombre", "Categoría", "Precio", "Aisle", "Bin"
             }
         ));
+        tb_productos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_productosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tb_productos);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 60, 500, 300));
@@ -204,7 +218,7 @@ public class Principal extends javax.swing.JFrame {
     private void jt_arbolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_arbolMouseClicked
         // TODO add your handling code here:
         if(evt.isMetaDown()){
-            pp_trees.show(this, evt.getX(), evt.getY());
+            pp_trees.show(this, evt.getXOnScreen(), evt.getYOnScreen());
         }
     }//GEN-LAST:event_jt_arbolMouseClicked
 
@@ -275,6 +289,18 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jmi_newfileActionPerformed
+
+    private void tb_productosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_productosMouseClicked
+        // TODO add your handling code here:
+        if (evt.isMetaDown()) {
+            pp_table.show(this, evt.getXOnScreen(), evt.getYOnScreen());
+        }
+    }//GEN-LAST:event_tb_productosMouseClicked
+
+    private void jmi_cleartbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cleartbActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_jmi_cleartbActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,11 +441,16 @@ public class Principal extends javax.swing.JFrame {
     
     public void clear(){
         DefaultTableModel tt=(DefaultTableModel)tb_productos.getModel();
-        for (int i = 0; i < tt.getRowCount(); i++) {
-            tt.removeRow(i);
+        DefaultTableModel bb=(DefaultTableModel)tb_productos.getModel();
+        for (int i = 0; i < bb.getRowCount(); i++) {
+            for (int j = 0; j < bb.getColumnCount(); j++) {
+                bb.setValueAt("", i, j);
+            }
+               
         }
-
+        
         tb_productos.setModel(tt);
+    
     }
     
     public void refresh(){
@@ -452,6 +483,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jmb_menus;
     private javax.swing.JMenuItem jmi_clear;
     private javax.swing.JMenuItem jmi_clearline;
+    private javax.swing.JMenuItem jmi_cleartb;
     private javax.swing.JMenuItem jmi_comandos;
     private javax.swing.JMenuItem jmi_import;
     private javax.swing.JMenuItem jmi_load;
