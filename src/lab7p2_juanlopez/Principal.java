@@ -5,8 +5,10 @@
 package lab7p2_juanlopez;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -128,6 +130,11 @@ public class Principal extends javax.swing.JFrame {
         jm_file.setText("File");
 
         jmi_newfile.setText("New File");
+        jmi_newfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_newfileActionPerformed(evt);
+            }
+        });
         jm_file.add(jmi_newfile);
 
         jmi_import.setText("Import File");
@@ -258,6 +265,15 @@ public class Principal extends javax.swing.JFrame {
         refresh();
     }//GEN-LAST:event_jmi_refrescarActionPerformed
 
+    private void jmi_newfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_newfileActionPerformed
+        try {
+            // TODO add your handling code here:
+            create();
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jmi_newfileActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -301,6 +317,17 @@ public class Principal extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else if("./create".equals(eva[0])){
+            try {
+                create();
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else if("./clear".equals(eva[0])){
+            clear();
+            
+        }else if("./refresh".equals(eva[0])){
+            refresh();
         }
         
     }
@@ -323,9 +350,18 @@ public class Principal extends javax.swing.JFrame {
         leer=new Scanner(nada);
         leer.useDelimiter(",");
         while (leer.hasNext()) {
-            String next = leer.next();
-            System.out.println(next);
+//            int id=leer.nextInt();
+//            String nom=leer.next();
+//            String cat=leer.next();
+//            double preci=Double.parseDouble(leer.next());
+//            int ais=Integer.parseInt(leer.next());
+//            int bin=Integer.parseInt(leer.next());
+//            productos.add(new Productos(id, nom, cat, preci, ais, bin));
+////            String next = leer.next();
+////            System.out.println(next);
+            productos.add(new Productos(leer.nextInt(), leer.nextLine(), leer.nextLine(), leer.nextDouble(), leer.nextInt(), leer.nextInt()));
         }
+        System.out.println(productos);
         System.out.println("TAmpoco aquí");
         
         AdminProductos ap=new AdminProductos("./"+com);
@@ -344,8 +380,31 @@ public class Principal extends javax.swing.JFrame {
         
     }
     
-    public void create(){
-        
+    public void create() throws IOException{
+        String nombre=com;
+        FileWriter fw=null;
+        BufferedWriter bw=null;
+        File nuevo=new File("./"+com);
+        fw=new FileWriter(nuevo,true);
+        bw=new BufferedWriter(fw);
+        DefaultTableModel bb=(DefaultTableModel)tb_productos.getModel();
+        try{
+        for (int i = 0; i < bb.getRowCount(); i++) {
+            Object [] objetos=new Object[7];
+            for (int j = 0; j < 7; j++) {
+                objetos[j]=bb.getValueAt(i, j);
+            }
+            for (Object o : objetos) {
+                bw.write((String)o+",");
+            }
+            
+        }
+        bw.flush();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        bw.close();
+        fw.close();
     }
     
     public void clear(){
@@ -375,6 +434,7 @@ public class Principal extends javax.swing.JFrame {
     
 
     String com="";
+    ArrayList <Productos> productos=new ArrayList<>();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_enter;
     private javax.swing.JPanel jPanel1;
