@@ -187,6 +187,11 @@ public class Principal extends javax.swing.JFrame {
         jm_help.setText("Help");
 
         jmi_structure.setText("Product Structure");
+        jmi_structure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_structureActionPerformed(evt);
+            }
+        });
         jm_help.add(jmi_structure);
 
         jmi_comandos.setText("Comandos");
@@ -301,6 +306,11 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         clear();
     }//GEN-LAST:event_jmi_cleartbActionPerformed
+
+    private void jmi_structureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_structureActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Los productos tienen ID, nombre, categoría, precio, Aisle y una bin");
+    }//GEN-LAST:event_jmi_structureActionPerformed
 
     /**
      * @param args the command line arguments
